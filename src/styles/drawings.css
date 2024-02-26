@@ -1,0 +1,19 @@
+cb-drawings {
+  pointer-events: none;
+
+  & cb-arrows,
+  & cb-square-highlights {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+
+    & svg {
+      width: inherit;
+      height: inherit;
+    }
+  }
+
+  & cb-arrows {
+    z-index: 1;
+  }
+}

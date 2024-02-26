@@ -1,0 +1,25 @@
+name: Continuous integration
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'release/**'
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install modules
+        run: npm ci
+      - name: Run lint
+        run: npm run lint
+      - name: Check codestyle
+        run: npm run codestyle
+      - name: Run tests
+        run: npm run test

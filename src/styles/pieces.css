@@ -1,0 +1,54 @@
+cb-pieces {
+  touch-action: none;
+
+  & cb-piece {
+    position: absolute;
+    width: 12.5%;
+    aspect-ratio: 1 / 1;
+    background-size: cover;
+    user-select: none;
+  }
+
+  & cb-piece.active {
+    cursor: pointer;
+  }
+
+  & cb-piece.moving {
+    transition: transform var(--move-duration, 0.6s)
+      var(--move-timing-function, ease);
+    cursor: default;
+    z-index: 2;
+  }
+
+  & cb-piece.adding {
+    animation: appear 0.6s ease-in forwards;
+  }
+
+  & cb-piece.removing {
+    animation: disappear 0.6s ease-out forwards;
+    cursor: default;
+  }
+
+  & cb-piece.dragging {
+    cursor: grabbing;
+    z-index: 3;
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes disappear {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

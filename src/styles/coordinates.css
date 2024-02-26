@@ -1,0 +1,67 @@
+cb-coordinates {
+  font-family: system-ui;
+  font-weight: 500;
+  user-select: none;
+
+  @container layers (width > 0px) {
+    font-size: 2.5cqw;
+  }
+
+  & cb-coordinates-ranks,
+  & cb-coordinates-files {
+    display: flex;
+    position: absolute;
+
+    & cb-coordinate {
+      flex: 1 1;
+
+      &:nth-child(even) {
+        color: var(--dark-color, #f2f2f2);
+      }
+
+      &:nth-child(odd) {
+        color: var(--light-color, #f2f2f2);
+      }
+    }
+  }
+
+  & cb-coordinates-ranks {
+    flex-direction: column-reverse;
+    height: inherit;
+
+    & cb-coordinate {
+      padding-left: 0.5ch;
+      padding-top: 0.15ch;
+    }
+  }
+
+  & cb-coordinates-files {
+    flex-direction: row;
+    width: inherit;
+    bottom: 0;
+
+    & cb-coordinate {
+      text-align: right;
+      padding-right: 0.5ch;
+      padding-bottom: 0.15ch;
+    }
+  }
+}
+
+:host(:host[orientation='black']) cb-coordinate {
+  &:nth-child(even) {
+    color: var(--light-color, #f2f2f2);
+  }
+
+  &:nth-child(odd) {
+    color: var(--dark-color, #f2f2f2);
+  }
+}
+
+:host([orientation='black']) cb-coordinates-files {
+  flex-direction: row-reverse;
+}
+
+:host([orientation='black']) cb-coordinates-ranks {
+  flex-direction: column;
+}
