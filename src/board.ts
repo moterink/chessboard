@@ -78,7 +78,7 @@ export class Chessboard extends HTMLElement {
         this.piecesElement.active = newValue as ActiveColor;
         break;
       case 'size':
-        this.style.width = newValue;
+        this.style.width = `round(to-zero, ${newValue}, 8px)`;
         break;
       case 'show-coordinates':
         this.coordinatesElement.visible = newValue !== null;

@@ -3,7 +3,7 @@ cb-pieces {
 
   & cb-piece {
     position: absolute;
-    width: 12.5%;
+    width: calc(100% / 8);
     aspect-ratio: 1 / 1;
     background-size: cover;
     user-select: none;
