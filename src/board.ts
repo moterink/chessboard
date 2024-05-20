@@ -117,10 +117,6 @@ export class Chessboard extends HTMLElement {
     return this.getAttribute('show-coordinates') !== null;
   }
 
-  set mayDropPiece(cb: (from: Square, to: Square) => boolean) {
-    this.piecesElement.mayDrop = cb;
-  }
-
   get enableAnimations(): boolean {
     return this.piecesElement.enableAnimations;
   }

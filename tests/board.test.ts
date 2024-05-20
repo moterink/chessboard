@@ -1,4 +1,5 @@
 import { ActiveColor, ActiveColors, Color, Colors } from '../src/types';
+import { PieceDropEvent } from '../src/events';
 import { Chessboard } from '../src/board';
 import { getSquareCoordinates } from '../src/squares';
 import { CUSTOM_ELEMENT_NAME } from '../src/constants';
@@ -178,8 +179,9 @@ describe('Chessboard interactions', () => {
   });
 
   test('drag piece', () => {
-    const mockMayDropPiece = jest.fn().mockReturnValue(true);
-    board.mayDropPiece = mockMayDropPiece;
+    const pieceDropEventListener = jest.fn();
+
+    board.addEventListener('piecedrop', pieceDropEventListener);
 
     const e2Square = getSquareCoordinates('e2', SQUARE_SIZE, 'white');
     const e4Square = getSquareCoordinates('e4', SQUARE_SIZE, 'white');
@@ -208,15 +210,21 @@ describe('Chessboard interactions', () => {
       }),
     );
 
-    expect(mockMayDropPiece).toHaveBeenCalledTimes(1);
-    expect(mockMayDropPiece.mock.calls[0][0]).toBe('e2');
-    expect(mockMayDropPiece.mock.calls[0][1]).toBe('e4');
+    expect(pieceDropEventListener).toHaveBeenCalledTimes(1);
+
+    const { from, to } = (
+      pieceDropEventListener.mock.calls[0][0] as PieceDropEvent
+    ).detail;
+
+    expect(from).toBe('e2');
+    expect(to).toBe('e4');
     expect(piece!.classList.contains('dragging')).toBe(false);
   });
 
   test('drag piece during layout shift', () => {
-    const mockMayDropPiece = jest.fn().mockReturnValue(true);
-    board.mayDropPiece = mockMayDropPiece;
+    const pieceDropEventListener = jest.fn();
+
+    board.addEventListener('piecedrop', pieceDropEventListener);
 
     const e2Square = getSquareCoordinates('e2', SQUARE_SIZE, 'white');
     const e4Square = getSquareCoordinates('e4', SQUARE_SIZE, 'white');
@@ -253,9 +261,15 @@ describe('Chessboard interactions', () => {
       }),
     );
 
-    expect(mockMayDropPiece).toHaveBeenCalledTimes(1);
-    expect(mockMayDropPiece.mock.calls[0][0]).toBe('e2');
-    expect(mockMayDropPiece.mock.calls[0][1]).toBe('e4');
+    expect(pieceDropEventListener).toHaveBeenCalledTimes(1);
+
+    const { from, to } = (
+      pieceDropEventListener.mock.calls[0][0] as PieceDropEvent
+    ).detail;
+
+    expect(from).toBe('e2');
+    expect(to).toBe('e4');
+
     expect(piece!.classList.contains('dragging')).toBe(false);
   });
 

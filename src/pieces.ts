@@ -1,4 +1,4 @@
-import { PieceClickEvent, SquareClickEvent } from './events';
+import { PieceClickEvent, PieceDropEvent, SquareClickEvent } from './events';
 import {
   DragStartHandler,
   getRelativeCoordinates,
@@ -115,8 +115,6 @@ export class Pieces extends HTMLElement {
   private _orientation: Color = 'white';
   private _enableAnimations = true;
 
-  private _mayDropCallback?: (from: Square, to: Square) => boolean = () => true;
-
   constructor() {
     super();
   }
@@ -209,10 +207,6 @@ export class Pieces extends HTMLElement {
     }
 
     this.propagateTransitionEnd();
-  }
-
-  set mayDrop(cb: (from: Square, to: Square) => boolean) {
-    this._mayDropCallback = cb;
   }
 
   addPiece(color: Color, type: PieceType, square: Square, immediate = false) {
@@ -333,15 +327,17 @@ export class Pieces extends HTMLElement {
           return;
         }
 
-        if (this._mayDropCallback?.(square, dropSquare)) {
-          piece.setTranslate(getSquareTranslate(dropSquare, this.orientation));
+        const accepted = this.dispatchEvent(
+          new PieceDropEvent(square, dropSquare),
+        );
+
+        if (accepted) {
           this.movePiece(square, dropSquare, true);
-          return;
+        } else {
+          // snapback
+          piece.setTranslate(getSquareTranslate(square, this.orientation));
         }
       }
-
-      // snapback
-      piece.setTranslate(getSquareTranslate(square, this.orientation));
     });
   }
 }
