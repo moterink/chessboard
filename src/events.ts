@@ -15,12 +15,12 @@ export class PieceClickEvent extends CustomEvent<{ square: Square }> {
 }
 
 export class PieceDropEvent extends CustomEvent<{
-  origin: Square;
-  target: Square;
+  from: Square;
+  to: Square;
 }> {
-  constructor(origin: Square, target: Square) {
+  constructor(from: Square, to: Square) {
     super('piecedrop', {
-      detail: { origin, target },
+      detail: { from, to },
       bubbles: true,
       composed: true,
       cancelable: true,

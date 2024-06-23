@@ -1,3 +1,5 @@
+import { describe, test, expect, beforeEach, afterEach } from 'vitest';
+
 import { Chessboard } from '../src/board';
 import { CUSTOM_ELEMENT_NAME } from '../src/constants';
 

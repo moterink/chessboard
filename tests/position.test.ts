@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'vitest';
+
 import Position from '../src/position';
 import Piece from '../src/pieces';
 

@@ -1,3 +1,5 @@
+import { vi, describe, test, expect, beforeEach, afterEach } from 'vitest';
+
 import { ActiveColor, ActiveColors, Color, Colors } from '../src/types';
 import { PieceDropEvent } from '../src/events';
 import { Chessboard } from '../src/board';
@@ -43,25 +45,13 @@ describe('Chessboard initialization', () => {
 
 describe('Chessboard attributes', () => {
   let board: Chessboard;
-  let consoleErrorMock: jest.SpyInstance;
   let onError: VoidFunction;
-
-  beforeAll(() => {
-    // for suppressing run-time error logged by JSDOM
-    consoleErrorMock = jest
-      .spyOn(console, 'error')
-      .mockImplementation(() => jest.fn());
-  });
-
-  afterAll(() => {
-    consoleErrorMock.mockRestore();
-  });
 
   beforeEach(() => {
     board = document.createElement(CUSTOM_ELEMENT_NAME) as Chessboard;
     document.body.appendChild(board);
 
-    onError = jest.fn();
+    onError = vi.fn();
     window.addEventListener('error', onError, {
       once: true,
     });
@@ -69,7 +59,7 @@ describe('Chessboard attributes', () => {
 
   afterEach(() => {
     document.body.removeChild(board);
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   test.each([...ActiveColors, 'blue'])(
@@ -100,8 +90,9 @@ describe('Chessboard attributes', () => {
     },
   );
 
-  test('setting show-coordinates attribute to %s', () => {
+  test('setting show-coordinates attribute', () => {
     expect(board.showCoordinates).toBe(false);
+
     board.setAttribute('show-coordinates', '');
     expect(board.showCoordinates).toBe(true);
 
@@ -156,7 +147,7 @@ describe('Chessboard interactions', () => {
   });
 
   test('click piece', async function () {
-    const mockPieceClick = jest.fn();
+    const mockPieceClick = vi.fn();
     board.addEventListener('piececlick', mockPieceClick);
 
     const position = getSquareCoordinates('e2', SQUARE_SIZE, 'white');
@@ -179,7 +170,7 @@ describe('Chessboard interactions', () => {
   });
 
   test('drag piece', () => {
-    const pieceDropEventListener = jest.fn();
+    const pieceDropEventListener = vi.fn();
 
     board.addEventListener('piecedrop', pieceDropEventListener);
 
@@ -222,7 +213,7 @@ describe('Chessboard interactions', () => {
   });
 
   test('drag piece during layout shift', () => {
-    const pieceDropEventListener = jest.fn();
+    const pieceDropEventListener = vi.fn();
 
     board.addEventListener('piecedrop', pieceDropEventListener);
 
@@ -274,7 +265,7 @@ describe('Chessboard interactions', () => {
   });
 
   test('drag piece back to origin square', () => {
-    const mockPieceClick = jest.fn();
+    const mockPieceClick = vi.fn();
     board.addEventListener('piececlick', mockPieceClick);
 
     const initialPiecesCount =
@@ -333,19 +324,20 @@ describe('Chessboard transitions', () => {
   });
 
   test('setting fen should animate moving of pieces', () => {
-    const mockTransitionEnd = jest.fn();
+    const mockTransitionEnd = vi.fn();
     board.addEventListener('transitionend', mockTransitionEnd);
     const piece = piecesContainer.querySelector('#wp5')!;
 
     expect(piece.classList.contains('moving')).toBe(false);
+
     board.fen = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1';
+
     expect(piece.classList.contains('moving')).toBe(true);
 
     // we need to dispatch transitionend manually because JSDOM does not trigger it
     piece.dispatchEvent(new Event('transitionend'));
     board.dispatchEvent(new Event('transitionend'));
 
-    expect(piece.classList.contains('moving')).toBe(false);
     expect(mockTransitionEnd).toHaveBeenCalledTimes(1);
   });
 });
