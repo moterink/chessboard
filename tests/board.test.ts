@@ -1,10 +1,10 @@
 import { vi, describe, test, expect, beforeEach, afterEach } from 'vitest';
 
-import { ActiveColor, ActiveColors, Color, Colors } from '../src/types';
+import { ActiveColor, Color } from '../src/types';
 import { PieceDropEvent } from '../src/events';
 import { Chessboard } from '../src/board';
 import { getSquareCoordinates } from '../src/squares';
-import { CUSTOM_ELEMENT_NAME } from '../src/constants';
+import { CUSTOM_ELEMENT_NAME, ACTIVE_COLORS, COLORS } from '../src/constants';
 
 import '../src/board';
 
@@ -62,12 +62,12 @@ describe('Chessboard attributes', () => {
     vi.resetAllMocks();
   });
 
-  test.each([...ActiveColors, 'blue'])(
+  test.each([...ACTIVE_COLORS, 'blue'])(
     'setting active attribute to %s',
     (value: string) => {
       board.setAttribute('active', value);
 
-      if (Object.values(ActiveColors).includes(value as ActiveColor)) {
+      if (Object.values(ACTIVE_COLORS).includes(value as ActiveColor)) {
         expect(onError).not.toHaveBeenCalled();
         expect(board.active).toBe(value);
       } else {
@@ -76,12 +76,12 @@ describe('Chessboard attributes', () => {
     },
   );
 
-  test.each([...Colors, 'blue'])(
+  test.each([...COLORS, 'blue'])(
     'setting orientation attribute to %s',
     (value: string) => {
       board.setAttribute('orientation', value);
 
-      if (Object.values(Colors).includes(value as Color)) {
+      if (Object.values(COLORS).includes(value as Color)) {
         expect(onError).not.toHaveBeenCalled();
         expect(board.orientation).toBe(value);
       } else {

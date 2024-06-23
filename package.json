@@ -11,7 +11,7 @@
     "emit-declarations": "tsc -d --declarationDir dist --noEmit false --emitDeclarationOnly",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest --coverage",
+    "coverage": "vitest --coverage --watch=false",
     "lint": "eslint .",
     "codestyle": "prettier . --check"
   },

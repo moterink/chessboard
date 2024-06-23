@@ -1,4 +1,4 @@
-import { Files, Ranks } from './types';
+import { FILES, RANKS } from './constants';
 
 customElements.define('cb-coordinates-ranks', class extends HTMLElement {});
 customElements.define('cb-coordinates-files', class extends HTMLElement {});
@@ -14,9 +14,9 @@ export class BoardCoordinates extends HTMLElement {
     const filesElement = document.createElement('cb-coordinates-files');
 
     for (const [symbolSource, element] of [
-      [Ranks, ranksElement],
-      [Files, filesElement],
-    ] as [[typeof Ranks, HTMLElement], [typeof Files, HTMLElement]]) {
+      [RANKS, ranksElement],
+      [FILES, filesElement],
+    ] as [[typeof RANKS, HTMLElement], [typeof FILES, HTMLElement]]) {
       symbolSource.forEach((c) => {
         const coordinate = document.createElement('cb-coordinate');
         coordinate.innerText = c;

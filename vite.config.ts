@@ -15,7 +15,8 @@ export default defineConfig({
     environment: 'jsdom',
     coverage: {
       provider: 'istanbul',
-      reporter: ['lcov']
+      reporter: ['lcov'],
+      include: ['src/**/*.ts'],
     },
   },
 });

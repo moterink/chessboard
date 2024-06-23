@@ -3,11 +3,10 @@ import {
   type Color,
   type FileRankIndices,
   type Coordinates,
-  Files,
-  Ranks,
   type Rank,
   type File,
 } from './types';
+import { FILES, RANKS } from './constants';
 
 export const distance = (square1: Square, square2: Square): number => {
   const fileDistance = Math.abs(square1.charCodeAt(0) - square2.charCodeAt(0));
@@ -21,15 +20,15 @@ export const getSquareByIndex = (index: number): Square => {
   console.assert(index >= 0 && index < 64);
   const rank = Math.floor(index / 8);
   const file = index % 8;
-  return (Files[file] + Ranks[7 - rank]) as Square;
+  return (FILES[file] + RANKS[7 - rank]) as Square;
 };
 
 export const getRelativeFileRank = (
   square: Square,
   orientation: Color,
 ): FileRankIndices => {
-  const file = Files.indexOf(square[0] as File);
-  const rank = Ranks.indexOf(square[1] as Rank);
+  const file = FILES.indexOf(square[0] as File);
+  const rank = RANKS.indexOf(square[1] as Rank);
   return {
     file: orientation === 'white' ? file : 7 - file,
     rank: orientation === 'white' ? 7 - rank : rank,
@@ -70,8 +69,8 @@ export const getSquareByCoordinates = (
     const file = Math.min(7, Math.floor(coordinates.x / squareSize));
     const rank = Math.min(7, Math.floor(coordinates.y / squareSize));
 
-    return (Files[orientation === 'white' ? file : 7 - file] +
-      Ranks[orientation === 'white' ? 7 - rank : rank]) as Square;
+    return (FILES[orientation === 'white' ? file : 7 - file] +
+      RANKS[orientation === 'white' ? 7 - rank : rank]) as Square;
   }
 };
 

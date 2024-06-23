@@ -1,8 +1,13 @@
-import { type Color, type Square, ActiveColor } from './types';
+import {
+  type Color,
+  type Square,
+  ActiveColor,
+  ObservedAttribute,
+} from './types';
 import { Drawings, calculateArrowCoordinates } from './drawings';
 import { BoardCoordinates } from './coordinates';
 import { Pieces } from './pieces';
-import { UnknownAttributeError, checkArgumentValueValid } from './errors';
+import { checkArgumentValueValid } from './errors';
 import { CUSTOM_ELEMENT_NAME, OBSERVED_ATTRIBUTES } from './constants';
 
 import styles from './styles/board.css?inline';
@@ -71,7 +76,11 @@ export class Chessboard extends HTMLElement {
     shadow.appendChild(this.layersElement);
   }
 
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+  attributeChangedCallback(
+    name: ObservedAttribute,
+    oldValue: string,
+    newValue: string,
+  ) {
     checkArgumentValueValid(name, newValue);
     switch (name) {
       case 'active':
@@ -92,8 +101,6 @@ export class Chessboard extends HTMLElement {
           this.drawingsElement.mirror();
         }
         break;
-      default:
-        throw new UnknownAttributeError(name);
     }
   }
 

@@ -1,4 +1,4 @@
-import { ActiveColors, Colors } from './types';
+import { ACTIVE_COLORS, COLORS } from './constants';
 
 export class InvalidAttributeValueError extends Error {
   constructor(attribute: string, value: string, allowed: readonly string[]) {
@@ -11,13 +11,6 @@ export class InvalidAttributeValueError extends Error {
   }
 }
 
-export class UnknownAttributeError extends Error {
-  constructor(attribute: string) {
-    super(`received unknown attribute ${attribute}`);
-    this.name = this.constructor.name;
-  }
-}
-
 export class PieceNotFoundError extends Error {
   constructor(square: string) {
     super(`no piece found at square ${square}`);
@@ -25,10 +18,11 @@ export class PieceNotFoundError extends Error {
   }
 }
 
-export const ValidAttributeValues: Record<string, readonly string[]> = {
-  active: ActiveColors,
-  orientation: Colors,
-};
+export const ValidAttributeValues: Readonly<Record<string, readonly string[]>> =
+  {
+    active: ACTIVE_COLORS,
+    orientation: COLORS,
+  } as const;
 
 export const checkArgumentValueValid = (attribute: string, value: string) => {
   const allowedValues = ValidAttributeValues[attribute];
